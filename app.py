@@ -1,10 +1,10 @@
 import streamlit as st
 import random
 
-# 🖥️ Page config
-st.set_page_config(page_title="Ideal Self AI", page_icon="🧠", layout="centered")
+# Page config
+st.set_page_config(page_title="Ideal Self AI", layout="centered")
 
-# 🎨 UI Styling
+# UI Styling
 st.markdown("""
 <style>
 body {
@@ -16,17 +16,17 @@ h1 {
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🧠 Ideal Self AI")
+st.title("Ideal Self AI")
 st.caption("Think clearly. Act wisely. Become your best self.")
 
-# 🔒 Expanded privacy keywords
+# Privacy keywords
 sensitive_keywords = [
     "phone", "number", "address", "bank", "password",
     "otp", "email", "location", "photo", "video",
     "aadhaar", "pan", "personal", "private", "details"
 ]
 
-# 🧠 Emotion detection
+# Emotion detection
 def detect_emotion(text):
     text = text.lower()
     if any(word in text for word in ["confused", "lost", "uncertain"]):
@@ -40,7 +40,7 @@ def detect_emotion(text):
     else:
         return "mixed"
 
-# 🔒 Privacy responses (5 variations)
+# Privacy responses
 privacy_responses = [
     "Sharing personal information online can expose you to risks you may not immediately see.",
     "Even if it feels safe, once personal details are shared, you lose control over them.",
@@ -65,7 +65,7 @@ privacy_reflect = [
     "Is there a safer way to handle this situation?"
 ]
 
-# 🧠 Normal responses (variations)
+# Normal responses
 emotion_lines = {
     "confusion": [
         "You seem to be feeling uncertain, which often happens when too many thoughts overlap.",
@@ -113,62 +113,62 @@ reflect_questions = [
     "If you were calm, how would you respond?"
 ]
 
-# 🧠 Response generator
+# Response generator
 def generate_response(user_input):
     text = user_input.lower()
 
-    # 🔒 Privacy detection (strong)
+    # Privacy detection
     if any(word in text for word in sensitive_keywords) or "share" in text:
         return f"""
-⚠️ **Pause — This Could Be Risky**
+Pause — this might not be safe.
 
 {random.choice(privacy_responses)}
 
 Your wiser self would not act on impulse here — they would protect their boundaries first.
 
-👉 **Action:** {random.choice(privacy_actions)}
+Action: {random.choice(privacy_actions)}
 
-💭 **Think:** {random.choice(privacy_reflect)}
+Think: {random.choice(privacy_reflect)}
 """
 
-    # 🧠 Normal flow
+    # Normal flow
     emotion = detect_emotion(user_input)
 
     return f"""
-**You said:** "{user_input}"
+You said: "{user_input}"
 
 ---
 
-🧠 **Understanding You**  
+Understanding:
 {random.choice(emotion_lines[emotion])}
 
 ---
 
-🌱 **A Better Perspective**  
+Perspective:
 {random.choice(perspectives)}
 
 ---
 
-⚡ **What You Can Do Next**  
+Next step:
 {random.choice(actions)}
 
 ---
 
-💭 **Think About This**  
+Think:
 {random.choice(reflect_questions)}
 """
 
-# 📝 Input
+# Input
 user_input = st.text_input("What's on your mind?")
 
 if user_input:
     if any(word in user_input.lower() for word in sensitive_keywords):
-        st.warning("⚠️ Avoid sharing sensitive personal information.")
+        st.warning("Avoid sharing sensitive personal information.")
 
     with st.spinner("Thinking..."):
         st.write("")
 
     reply = generate_response(user_input)
 
-    st.markdown("### 🧘 Your Ideal Self says:")
+    st.markdown("### Your Ideal Self says:")
     st.markdown(reply)
